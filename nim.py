@@ -133,7 +133,16 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        raise NotImplementedError
+        pairs = list()
+        zero_count = 0
+        for i in range(len(state)):
+            if state[i] == 0:
+                zero_count += 1
+            for j in range(state[i]):
+                pairs.append(self.get_q_value(state, (i, j+1)))
+
+        if zero_count == len(state): return 0
+        return max(pairs)
 
     def choose_action(self, state, epsilon=True):
         """
