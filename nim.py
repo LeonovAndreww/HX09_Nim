@@ -161,7 +161,15 @@ class NimAI():
         if epsilon:
             raise NotImplementedError
         else:
-            raise NotImplementedError
+            max_q = -1
+            act = (-1, -1)
+            for action in Nim.available_actions(state):
+                q = self.get_q_value(state, action)
+                if q > max_q:
+                    max_q = q
+                act = action
+            if act is not (-1, -1): return act
+            else: return 0
 
 
 def train(n):
