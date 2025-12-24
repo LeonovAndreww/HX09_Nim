@@ -158,19 +158,20 @@ class NimAI():
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
         """
-        if epsilon:
-            raise NotImplementedError
+        if epsilon and   random.random() < self.epsilon:
+            return random.choice(list(Nim.available_actions(state)))
         else:
-            max_q = -1
+            max_q = float('-inf')
             act = (-1, -1)
             for action in Nim.available_actions(state):
                 q = self.get_q_value(state, action)
                 if q > max_q:
                     max_q = q
-                act = action
-            if act is not (-1, -1): return act
-            else: return 0
-
+                    act = action
+            if act != (-1, -1):
+                return act
+            else:
+                return None
 
 def train(n):
     """
